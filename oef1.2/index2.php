@@ -26,14 +26,14 @@
     <div class="row">
 
         <?php
-        $img = array("paris", "london", "rome") ;
+        $img = array("Paris"=>"paris.jpg", "London"=>"london.jpg", "Rome"=>"rome.jpg") ;
 
-        for ($i = 0; $i < count($img); $i++ ) {
+        foreach ($img as $city => $cityimg) {
             echo '<div class="col-sm-4">';
-            echo '<h3>Column ' . ($i+1) . '</h3>';
+            echo '<h3>' . $city . '</h3>';
             echo '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>';
             echo '<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>';
-            echo '<img src="./img/' . $img[$i] . '.jpg">';
+            echo '<img src="./img/' . $cityimg . '" alt="A view from ' . $city . '" title ="A view from ' . $city . '">';
             echo '</div>';
         }
         ?>
