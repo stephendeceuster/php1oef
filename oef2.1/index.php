@@ -2,44 +2,44 @@
 error_reporting( E_ALL );
 ini_set( 'display_errors', 1 );
 
-// connection credentials
-require_once ("connection_data.php");
+require_once("connection_data.php");
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-// create connection
-//$conn = new mysqli($servername, $username, $password, $dbname);
+function getData($sql) {
+    global $conn;
 
-// check connection
-if($conn->connect_error) {
-    die("Connection failed : ".$conn->connect_error);
-}
-
-$sqlQueryGetAll = "SELECT * from images";
-
-function getData($x) {
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    $data = conn->query($x);
-    if ($data->num_rows > 0) {
-        // output data of each row
-        while($row = $data->fetch_assoc()) {
-            echo $row["img_id"] . "<br>";
-            echo $row["img_title"] . "<br>";
-            echo $row["img_filename"] . "<br>";
-            echo "<br>";
-        }
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
     }
-    else {
+    // Execute query
+    $result = $conn -> query($sql);
+
+    // Show result
+    if ($result->num_rows > 0) {
+        // output elke rij
+        while ($row = $result->fetch_assoc()) {
+            $output = '<div class="col-sm-4">';
+            $output .= '<h3>' . $row["img_title"] . '</h3> ';
+            $output .= '<p>' . $row["img_height"] . ' x ' . $row["img_width"] . ' pixels </p>';
+            $output .= '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>';
+            $output .= '<img src="./img/' . $row["img_filename"] . '" alt="A view from ' . $row["img_title"] . '" title ="A view from ' . $row["img_title"] . '">';
+            $output .= '</div>';
+            echo $output;
+        }
+    } else {
         echo "No records found";
     }
-    $conn->close();
+    // Free result set
+    $result -> free_result();
+    // close connection
+    $conn -> close();
 }
-
-getData($sqlQueryGetAll);
-
 
 ?>
 
-
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Bootstrap Example</title>
@@ -52,6 +52,9 @@ getData($sqlQueryGetAll);
         img {
             width: 100%;
             height: auto;
+        }
+        .container {
+            padding-bottom: 5rem;
         }
     </style>
 </head>
@@ -67,16 +70,8 @@ getData($sqlQueryGetAll);
     <div class="row">
 
         <?php
-        $img = array("Paris"=>"paris.jpg", "London"=>"london.jpg", "Rome"=>"rome.jpg") ;
-
-        foreach ($img as $city => $cityimg) {
-            echo '<div class="col-sm-4">';
-            echo '<h3>' . $city . '</h3>';
-            echo '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>';
-            echo '<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>';
-            echo '<img src="./img/' . $cityimg . '" alt="A view from ' . $city . '" title ="A view from ' . $city . '">';
-            echo '</div>';
-        }
+        $selectAll = "SELECT * from images";
+        getData($selectAll);
         ?>
 
     </div>
