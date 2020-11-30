@@ -26,9 +26,10 @@ function getData($sql) {
             $output = '<div class="col-sm-4 mb-2">';
             $output .= '<div class="col-sm-12">';
             $output .= '<h3>' . $row["img_title"] . '</h3> ';
+            $output .= '<p>' . $row["img_height"] . ' x ' . $row["img_width"] . ' pixels </p>';
             $output .= '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>';
             $output .= '<img src="./img/' . $row["img_filename"] . '" alt="A view from ' . $row["img_title"] . '" title ="A view from ' . $row["img_title"] . '">';
-            $output .= '<a href="stad.php?img_id=' . $row["img_id"] . '">Meer info over '. $row["img_title"] . '</a>';
+            $output .= '<a href="stad.php?img_id=' . $row["img_id"] . '">';
             $output .= '</div></div>';
             echo $output;
         }
@@ -38,30 +39,8 @@ function getData($sql) {
     // Free result set
     $result -> free_result();
 
-
-}
-
-function getContinents() {
-
-    global $mysqli;
-
-    // Execute query
-    $continents = "SELECT con_naam FROM continents";
-    $result = $mysqli -> query($continents);
-
-    if ($result->num_rows > 0) {
-        // output elke rij
-        $output = "";
-        while ($row = $result->fetch_assoc()) {
-            $output .= '<a class="btn btn-primary" role="button" href="index2.php?continent='. $row["con_naam"] . '" >' . $row["con_naam"] . '</a>';
-        }
-        $output .= '<a class="btn btn-primary" role="button" href="index2.php">Alles</a>';
-        echo $output;
-    } else {
-        echo "No records found";
-    }
-    // Free result set
-    $result -> free_result();
+    // close connection
+    $mysqli -> close();
 
 }
 
@@ -82,7 +61,6 @@ function getContinents() {
         img {
             width: 100%;
             height: auto;
-            margin-bottom: 8px;
         }
         .container {
             padding-bottom: 5rem;
@@ -102,9 +80,6 @@ function getContinents() {
             margin-right: 8px;
             margin-bottom: 8px;
         }
-        .buttonbar {
-            margin-bottom: 8px;
-        }
     </style>
 </head>
 <body>
@@ -117,27 +92,31 @@ function getContinents() {
 
 <div class="container">
     <div class="row">
-        <div class="col-12 buttonbar">
+        <div class="col-12">
+            <div class="col-12">
             <?php
             getContinents();
             ?>
+            </div>
         </div>
     </div>
+</div>
+<div class="container">
     <div class="row">
 
         <?php
 
-        $select = 'SELECT * FROM images';
-        if (isset($_GET['continent'] )) {
-            $select = 'SELECT * FROM images JOIN continents ON img_con_id = con_id WHERE con_naam LIKE "%'.$_GET['continent'].'%"';
-        }
-        getData($select);
+        $selectAll = 'SELECT * FROM images';
+        getData($selectAll);
         ?>
 
     </div>
 </div>
-<?php
-$mysqli -> close();
-?>
+
 </body>
 </html>
+
+<?php
+// close connection
+$mysqli -> close();
+?>
