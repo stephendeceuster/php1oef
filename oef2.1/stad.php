@@ -54,6 +54,7 @@ $result -> free_result();
         <div class="col-9">
             <?php
             // print de content
+            echo '<h4>' . $title . ' - ' . $continent . '</h4>';
             echo '<p>filename : ' . $file . '</p>';
             echo '<p>' . $width . ' x ' . $height . ' pixels</p>';
             echo '<img src="./img/' . $file . '" alt="A view from ' . $title . '" title ="A view from ' . $title . '">';
