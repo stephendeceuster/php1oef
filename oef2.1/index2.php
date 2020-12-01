@@ -4,13 +4,6 @@ ini_set( 'display_errors', 1 );
 
 require_once("connection_data.php");
 
-// Create connection
-$mysqli = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($mysqli->connect_error) {
-    die("Connection failed: " . $mysqli->connect_error);
-}
 
 function getData($sql) {
 
@@ -78,34 +71,7 @@ function getContinents() {
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <style>
-        img {
-            width: 100%;
-            height: auto;
-            margin-bottom: 8px;
-        }
-        .container {
-            padding-bottom: 5rem;
-        }
-        div.col-sm-12 {
-            transition: all 300ms ease-in-out;
-            padding-bottom: 16px;
-            border-radius: 4px;
-            margin-bottom: 16px;
-        }
-        div.col-sm-12:hover {
-            transform: scale(1.015);
-            box-shadow: 0px 8px 9px -3px rgba(68,68,68,0.61);
-            background-color: #eeeeee;
-        }
-        .btn {
-            margin-right: 8px;
-            margin-bottom: 8px;
-        }
-        .buttonbar {
-            margin-bottom: 8px;
-        }
-    </style>
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
 
