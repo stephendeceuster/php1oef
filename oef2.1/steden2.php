@@ -46,9 +46,9 @@ function getContinents() {
         // output elke rij
         $output = "";
         while ($row = $result->fetch_assoc()) {
-            $output .= '<a class="btn btn-primary" role="button" href="index2.php?continent='. $row["con_naam"] . '" >' . $row["con_naam"] . '</a>';
+            $output .= '<a class="btn btn-primary" role="button" href="steden2.php?continent='. $row["con_naam"] . '" >' . $row["con_naam"] . '</a>';
         }
-        $output .= '<a class="btn btn-primary" role="button" href="index2.php">Alles</a>';
+        $output .= '<a class="btn btn-primary" role="button" href="steden2.php">Alles</a>';
         echo $output;
     } else {
         echo "No records found";
