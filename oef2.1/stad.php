@@ -13,7 +13,7 @@ $sql = "SELECT * FROM images JOIN continents ON con_id = img_con_id WHERE img_id
 $result = $mysqli -> query($sql);
 
 // Show result
-if ($result->num_rows > 0) {
+if ($result -> num_rows > 0) {
     // put data in variables
     while ($row = $result->fetch_assoc()) {
         $title = $row["img_title"];
@@ -63,9 +63,7 @@ $result -> free_result();
             if (!empty($referer)) {
                 echo '<p><a href="'. $referer .'" title="Terug naar overzicht">Terug naar overzicht</a></p>';
             } else {
-
                 echo '<p><a href="javascript:history.go(-1)" title="Terug naar overzichte">Terug naar overzicht</a></p>';
-
             }
             ?>
 
