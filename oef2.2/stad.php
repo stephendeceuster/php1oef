@@ -5,11 +5,42 @@ ini_set( 'display_errors', 1 );
 require_once ("functions.php");
 require_once ("./templates/html_components.php");
 
+
+// get 'img_id
 $imgId = $_GET['img_id'];
-$sql = "SELECT * FROM images JOIN continents ON con_id = img_con_id WHERE img_id =". $imgId;
+// validate 'img_id'
+if (!is_numeric($imgId)) {
+    die ("Wrong parameter");
+}
+// make sql statement & prepare
+$sql = "SELECT * FROM images JOIN continents ON con_id = img_con_id WHERE img_id = ?";
+$stmt = $mysqli -> prepare($sql);
+
+if ($stmt == false) {
+    die("Error preparing statement : " . $sql);
+}
+
+// bind parameters
+$stmt -> bind_param("i", $imgId); // $imgId must convert to integer
+$stmt -> execute();
+$result = $stmt -> get_result(); // get mysqli result
+
+// show result (if there is any)
+if ($stmt -> affected_rows > 0) {
+    // output data
+    while ($row = $result -> fetch_assoc()) {
+        $title = $row["img_title"];
+        $file = $row["img_filename"];
+        $width = $row["img_width"];
+        $height = $row["img_height"];
+        $continent = $row["con_naam"];
+    }
+}
 
 
 
+
+/*
 // get query with city data
 $result = $mysqli -> query($sql);
 
@@ -29,6 +60,7 @@ if ($result -> num_rows > 0) {
 
 // Free result set
 $result -> free_result();
+*/
 
 PrintHead();
 PrintJumbo();
