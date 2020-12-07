@@ -5,7 +5,7 @@ ini_set( 'display_errors', 1 );
 require_once ("./lib/mysqli.php");
 require_once ("./lib/html_components.php");
 
-// insert head & jumbo
+// INSERT HEAD & JUMBO
 printHead();
 printJumbo();
 
@@ -21,7 +21,7 @@ $contQuery = "SELECT con_name FROM continents";
 // get the data
 $rows = getData($contQuery);
 // the template
-$template = '<a class="btn btn-primary" role="button" href="steden.php?continent=@con_name@">@con_name@</a>';
+$template = '<a class="btn btn-primary" role="button" href="steden.php?continent=%con_name%">%con_name%</a>';
 $html = mergeDataTemplate($rows, $template);
 if ($html != '') {
     $html .= '<a class="btn btn-primary" role="button" href="steden.php">Bekijk alle steden</a>';
@@ -53,8 +53,8 @@ echo $html;
 
 ?>
 
-    </div>
-</div>
+    </div> <!-- end .row -->
+</div> <!-- end .container -->
 
 <?php
 $mysqli -> close();

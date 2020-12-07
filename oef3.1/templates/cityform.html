@@ -1,0 +1,37 @@
+<div class="col-9">
+    <form id="cityform" name="cityform" method="POST" action="stad-form.php?img_id=%img_id%">
+        <div class="form-group row">
+            <label for="img_id" class="col-sm-4 col-form-label ">ID</label>
+            <div class="col-sm-8">
+                <input type="text" readonly class="form-control" id="img_id" name="img_id" value="%img_id%">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="img_title" class="col-sm-4 col-form-label ">Title</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="img_title" name="img_title" placeholder="%img_title%">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="img_filename" class="col-sm-4 col-form-label ">Filename</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="img_filename" name="img_filename" placeholder="%img_filename%">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="img_width" class="col-sm-4 col-form-label ">Width</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="img_width" name="img_width" placeholder="%img_width%">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="img_height" class="col-sm-4 col-form-label ">Height</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="img_height" name="img_height" placeholder="%img_height%">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Save</button>
+    </form>
+    <img src="./img/%img_filename%" alt="A view from %img_title%" title ="A view from %img_title%">
+    <a href="steden.php">Terug naar overzicht</a>
+</div>
