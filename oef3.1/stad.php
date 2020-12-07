@@ -6,8 +6,8 @@ require_once ("./lib/mysqli.php");
 require_once ("./lib/html_components.php");
 
 // INSERT HEAD & JUMBO
-printHead();
-printJumbo();
+printHead("Cityguide");
+printJumbo("Ontdek de stad", "");
 
 ?>
 

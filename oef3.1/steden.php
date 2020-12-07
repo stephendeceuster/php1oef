@@ -6,8 +6,19 @@ require_once ("./lib/mysqli.php");
 require_once ("./lib/html_components.php");
 
 // INSERT HEAD & JUMBO
-printHead();
-printJumbo();
+$titleHead = "Cityguide ";
+if ($_GET['continent'] != NULL) {
+    $titleHead .= $_GET['continent'];
+}
+printHead($titleHead);
+$titleJumbo = "Leuke plekken";
+if ($_GET['continent'] != NULL) {
+    $titleJumbo .= " in " . $_GET['continent'];
+} else {
+    $titleJumbo .= " op de wereld";
+}
+$taglineJumbo = "Tips voor citytrippers!";
+printJumbo($titleJumbo, $taglineJumbo);
 
 ?>
 <div class="container">

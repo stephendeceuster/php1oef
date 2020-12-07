@@ -21,8 +21,8 @@ if ($_POST != []) {
 }
 
 // INSERT HEAD & JUMBO
-printHead();
-printJumbo();
+printHead("Cityguide bewerken");
+printJumbo("Bewerk afbeelding", "");
 
 ?>
 
