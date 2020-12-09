@@ -7,12 +7,12 @@ require_once ("./lib/html_components.php");
 
 // INSERT HEAD & JUMBO
 $titleHead = "Cityguide ";
-if ($_GET['continent'] != NULL) {
+if (key_exists("continent",$_GET) && $_GET['continent'] != NULL) {
     $titleHead .= $_GET['continent'];
 }
 printHead($titleHead);
 $titleJumbo = "Leuke plekken";
-if ($_GET['continent'] != NULL) {
+if (key_exists("continent",$_GET) && $_GET['continent'] != NULL) {
     $titleJumbo .= " in " . $_GET['continent'];
 } else {
     $titleJumbo .= " op de wereld";

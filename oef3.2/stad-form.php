@@ -43,12 +43,19 @@ if ( ! is_numeric( $img_id ) ) {
     die("Ongeldig argument " . $_GET['img_id'] . " opgegeven");
 }
 // get data
-$cityForm = "SELECT * FROM images JOIN continents ON con_id = img_con_id WHERE img_id =" . $img_id;
+$cityForm = "SELECT * FROM images JOIN countries ON cou_id = img_cou_id WHERE img_id =" . $img_id;
 $rows = getData($cityForm);
 // get template
 $template = file_get_contents('./templates/cityform.html');
 // merge data & template
 $html = mergeDataTemplate($rows, $template);
+$optionsCountries = "SELECT * FROM countries ORDER BY cou_name";
+$rows = getData($optionsCountries);
+$options = '<option selected hidden>Kies een land</option>';
+foreach ($rows as $row) {
+    $options .= '<option value ="' . $row['cou_id'] . '">' . $row['cou_name'] . '</option> ';
+}
+$html = str_replace('%options%', $options , $html);
 echo $html;
 ?>
 
