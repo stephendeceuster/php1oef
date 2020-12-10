@@ -19,8 +19,9 @@ function SaveFormData()
         if (!hash_equals($_POST['csrf'], $_SESSION['latest_csrf'])) {
             die("Problem with CSRF");
         }
+        // make latest csrf empty
         $_SESSION['latest_csrf'] = '';
-        //var_dump($_POST);
+
         $update = $insert = $where = $str_keys_values = "";
 
         if ( ! key_exists("table", $_POST)) {
