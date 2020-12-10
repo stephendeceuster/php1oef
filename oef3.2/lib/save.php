@@ -10,6 +10,14 @@ function SaveFormData()
 {
     if ( $_SERVER['REQUEST_METHOD'] == "POST" )
     {
+        // security csrf
+        if (!key_exists("csrf", $_POST)) {
+            die("Missing CSRF");
+        };
+        if (!hash_equals($POST['csrf'], $_SESSION['latest_csrf'])) {
+            die("Problem with CSRF");
+        }
+        $_SESSION['latest_csrf'] = '';
         //var_dump($_POST);
         $update = $insert = $where = $str_keys_values = "";
 
@@ -64,9 +72,11 @@ function SaveFormData()
         $sql .= $str_keys_values;
         //extend SQL with WHERE
         $sql .= $where;
+        var_dump($sql);
 
         //run SQL
-        $result = $mysqli -> query($sql);
+        $query = "UPDATE images SET img_title = 'Toto', img_cou_id = '26' WHERE img_id = 23";
+        $result = $mysqli -> query($query);
         var_dump($result);
 
         //redirect after insert or update
