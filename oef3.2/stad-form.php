@@ -34,11 +34,14 @@ $data[0]["csrf_token"] = generateCSRF("cityform");
 $template = file_get_contents('./templates/cityform.html');
 // merge data & template
 $html = mergeDataTemplate($data, $template);
+// dynamische landenlijst
 $optionsCountries = "SELECT * FROM countries ORDER BY cou_name";
 $rows = getData($optionsCountries);
-$options = '<option selected hidden>Kies een land</option>';
+$options = '<option value ="NULL">Kies een land</option>';
 foreach ($rows as $row) {
-    $options .= '<option value ="' . $row['cou_id'] . '">' . $row['cou_name'] . '</option> ';
+    $selected = '';
+    if ($data[0]['img_cou_id'] == $row['cou_id']) $selected = ' selected ';
+    $options .= '<option ' . $selected . ' value ="' . $row['cou_id'] . '">' . $row['cou_name'] . '</option> ';
 }
 $html = str_replace('%options%', $options , $html);
 echo $html;
