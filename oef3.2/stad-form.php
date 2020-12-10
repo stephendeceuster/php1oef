@@ -2,9 +2,11 @@
 error_reporting( E_ALL );
 ini_set( 'display_errors', 1 );
 
-require_once ("./lib/mysqli.php");
 require_once ("./lib/security.php");
+require_once ("./lib/mysqli.php");
 require_once ("./lib/html_components.php");
+
+var_dump($_SESSION);
 
 // INSERT HEAD & JUMBO
 printHead("Cityguide bewerken");

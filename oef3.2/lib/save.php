@@ -1,21 +1,22 @@
 <?php
-
-//print json_encode($_POST);
-
-require_once "mysqli.php";
-require_once "security.php";
+error_reporting( E_ALL );
+ini_set( 'display_errors', 1 );
 session_start();
+require_once "mysqli.php";
+
 SaveFormData();
 
 function SaveFormData()
 {
+    global $mysqli;
     if ( $_SERVER['REQUEST_METHOD'] == "POST" )
     {
+
         // security csrf
         if (!key_exists("csrf", $_POST)) {
             die("Missing CSRF");
         };
-        if (!hash_equals($POST['csrf'], $_SESSION['latest_csrf'])) {
+        if (!hash_equals($_POST['csrf'], $_SESSION['latest_csrf'])) {
             die("Problem with CSRF");
         }
         $_SESSION['latest_csrf'] = '';
@@ -45,14 +46,13 @@ function SaveFormData()
         if ( $insert ) {
             $sql = "INSERT INTO $table SET ";
         }
-        //var_dump($sql);
         //make key-value string part of SQL statement
         $keys_values = [];
 
         foreach ( $_POST as $field => $value )
         {
             //skip non-data fields
-            if ( in_array( $field, [ 'table', 'pkey', 'afterinsert', 'afterupdate' ] ) ) {
+            if ( in_array( $field, [ 'table', 'pkey', 'afterinsert', 'afterupdate', 'csrf' ] ) ) {
                 continue;
             }
             //handle primary key field
@@ -76,12 +76,10 @@ function SaveFormData()
         var_dump($sql);
 
         //run SQL
-        $query = "UPDATE images SET img_title = 'Toto', img_cou_id = '26' WHERE img_id = 23";
-        $result = $mysqli -> query($query);
+        $result = $mysqli -> query($sql);
         var_dump($result);
 
         //redirect after insert or update
-
         if ( $insert AND $_POST["afterinsert"] > "" ) header("Location: ../" . $_POST["afterinsert"] );
         if ( $update AND $_POST["afterupdate"] > "" ) header("Location: ../" . $_POST["afterupdate"] );
 
