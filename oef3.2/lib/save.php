@@ -3,7 +3,8 @@
 //print json_encode($_POST);
 
 require_once "mysqli.php";
-
+require_once "security.php";
+session_start();
 SaveFormData();
 
 function SaveFormData()
