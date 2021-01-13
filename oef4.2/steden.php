@@ -2,8 +2,7 @@
 error_reporting( E_ALL );
 ini_set( 'display_errors', 1 );
 
-require_once ("./lib/mysqli.php");
-require_once ("./lib/html_components.php");
+require_once ('./lib/autoload.php');
 
 // INSERT HEAD & JUMBO
 $titleHead = "Cityguide ";
@@ -22,6 +21,10 @@ printJumbo($titleJumbo, $taglineJumbo);
 
 // NAVBAR
 printNavbar();
+
+if ( $msgs ) {
+    printAlert($msgs);
+}
 
 ?>
 <div class="container">
@@ -71,6 +74,6 @@ echo $html;
 </div> <!-- end .container -->
 
 <?php
-$mysqli -> close();
+printFooter();
 ?>
-</body>
+

@@ -1,16 +1,14 @@
 <?php
-<?php
 error_reporting( E_ALL );
 ini_set( 'display_errors', 1 );
 
-require_once ("./lib/security.php");
-require_once ("./lib/mysqli.php");
-require_once ("./lib/html_components.php");
+require_once ('./lib/autoload.php');
 
 
 // INSERT HEAD & JUMBO
-printHead("Cityguide bewerken");
-printJumbo("Bewerk afbeelding", "");
+printHead("Registreer");
+printJumbo("Registreer je hier!", "");
+printNavbar();
 
 ?>
 
@@ -18,32 +16,26 @@ printJumbo("Bewerk afbeelding", "");
     <div class="row">
 
 <?php
-
-// INSERT CITYFORM
-// Check if img_id is an integer
-$img_id = $_GET['img_id'];
-if ( ! is_numeric( $img_id ) ) {
-    die("Ongeldig argument " . $_GET['img_id'] . " opgegeven");
-}
+// Insert register form
 // get data
-$cityForm = "SELECT * FROM images JOIN countries ON cou_id = img_cou_id WHERE img_id =" . $img_id;
-$data = getData($cityForm);
-// add CSRF token to data
-$data[0]["csrf_token"] = generateCSRF("cityform");
-// get template
-$template = file_get_contents('./templates/cityform.html');
-// merge data & template
-$html = mergeDataTemplate($data, $template);
-// dynamische landenlijst
-$optionsCountries = "SELECT * FROM countries ORDER BY cou_name";
-$rows = getData($optionsCountries);
-$options = '';
-foreach ($rows as $row) {
-    $selected = '';
-    if ($data[0]['img_cou_id'] == $row['cou_id']) $selected = ' selected ';
-    $options .= '<option ' . $selected . ' value ="' . $row['cou_id'] . '">' . $row['cou_name'] . '</option> ';
+// SQL $userdata = "SELECT * FROM images JOIN countries ON cou_id = img_cou_id WHERE img_id =" . $img_id;
+// $data = getData($cityForm);
+if (isset($old_post)) {
+    $data = [0 => $old_post];
+} else {
+    $data = [0 => ['usr_firstname' => '', 'usr_lastname' => '', 'usr_email' => '', 'usr_password' => '']];
 }
-$html = str_replace('%options%', $options , $html);
+// add CSRF token to data
+$extra_elements['csrf_token'] = generateCSRF('registerform');
+//var_dump($extra_elements['csrf_token']);
+//var_dump($_SESSION['latest_csrf']);
+// get template
+$html = file_get_contents('./templates/register.html');
+// merge data & template
+$html = mergeDataTemplate($data, $html);
+$html = mergeExtraElementsTemplate($extra_elements, $html);
+$html = mergeErrorsTemplate($errors, $html);
+$html = removeEmptyErrors( $data, $html );
 echo $html;
 ?>
 
@@ -51,6 +43,5 @@ echo $html;
 </div> <!-- end .container -->
 
 <?php
-//$mysqli -> close();
+printFooter();
 ?>
-</body>

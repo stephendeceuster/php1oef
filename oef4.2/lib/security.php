@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 function generateCSRF(string $formname = "noformname"):string {
     $csrf_key = bin2hex(random_bytes(32));

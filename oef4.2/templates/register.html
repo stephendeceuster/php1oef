@@ -1,11 +1,10 @@
 <div class="col-sm-8 offset-sm-2">
-    <form id="cityform" name="cityform" method="POST" action="./lib/save.php">
+    <form id="registerform" name="registerform" method="POST" action="./lib/save.php">
 
         <!-- meta info -->
-        <input type="hidden" id="table" name="table" value="images">
-        <input type="hidden" id="pkey" name="pkey" value="img_id">
+        <input type="hidden" id="table" name="table" value="user">
+        <input type="hidden" id="pkey" name="pkey" value="usr_id">
         <input type="hidden" id="afterinsert" name="afterinsert" value="steden.php">
-        <input type="hidden" id="afterupdate" name="afterupdate" value="steden.php">
         <!-- end meta info -->
 
         <!-- security -->
@@ -14,47 +13,36 @@
 
 
         <div class="form-group row">
-            <label for="img_id" class="col-sm-4 col-form-label ">ID</label>
+            <label for="usr_firstname" class="col-sm-4 col-form-label ">Voornaam</label>
             <div class="col-sm-8">
-                <input type="text" readonly class="form-control" id="img_id" name="img_id" value="%img_id%" placeholder="%img_id%">
+                <input type="text" class="form-control" id="usr_firstname" name="usr_firstname" value="%usr_firstname%">
+                %usr_firstname_error%
             </div>
         </div>
         <div class="form-group row">
-            <label for="img_title" class="col-sm-4 col-form-label ">Stad</label>
+            <label for="usr_lastname" class="col-sm-4 col-form-label ">Achternaam</label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" id="img_title" name="img_title" value="%img_title%" placeholder="%img_title%">
+                <input type="text" class="form-control" id="usr_lastname" name="usr_lastname" value="%usr_lastname%">
+                %usr_lastname_error%
             </div>
         </div>
         <div class="form-group row">
-            <label for="img_filename" class="col-sm-4 col-form-label ">Bestandsnaam</label>
+            <label for="usr_email" class="col-sm-4 col-form-label ">Email</label>
             <div class="col-sm-8">
-                <input type="text" readonly class="form-control" id="img_filename" name="img_filename" value="%img_filename%" placeholder="%img_filename%">
+                <input type="text" class="form-control" id="usr_email" name="usr_email" value="%usr_email%">
+                %usr_email_error%
             </div>
         </div>
         <div class="form-group row">
-            <label for="img_width" class="col-sm-4 col-form-label ">Breedte</label>
+            <label for="usr_password" class="col-sm-4 col-form-label ">Wachtwoord</label>
             <div class="col-sm-8">
-                <input type="number" class="form-control" id="img_width" name="img_width" value="%img_width%" placeholder="%img_width%">
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="img_height" class="col-sm-4 col-form-label ">Hoogte</label>
-            <div class="col-sm-8">
-                <input type="number" class="form-control" id="img_height" name="img_height" value="%img_height%" placeholder="%img_height%">
+                <input type="password" class="form-control" id="usr_password" name="usr_password">
+                %usr_password_error%
             </div>
         </div>
 
-        <div class="form-group row">
-            <label for="img_cou_id" class="col-sm-4 col-form-label ">Land</label>
-            <div class="col-sm-8">
-                <select class="form-control" id="img_cou_id" name="img_cou_id" value="%img_cou_id%">
-                    %options%
-                </select>
-            </div>
-        </div>
 
-        <button type="submit" class="btn btn-primary mb-2">Pas de data aan</button>
+        <button type="submit" class="btn btn-primary mb-2">Registreer</button>
     </form>
-    <img src="./img/%img_filename%" alt="A view from %img_title%" title ="A view from %img_title%">
     <a href="steden.php">Terug naar overzicht</a>
 </div>

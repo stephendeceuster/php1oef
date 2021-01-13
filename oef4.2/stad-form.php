@@ -2,14 +2,14 @@
 error_reporting( E_ALL );
 ini_set( 'display_errors', 1 );
 
-require_once ("./lib/security.php");
-require_once ("./lib/mysqli.php");
-require_once ("./lib/html_components.php");
-
+require_once ('./lib/autoload.php');
 
 // INSERT HEAD & JUMBO
 printHead("Cityguide bewerken");
+
 printJumbo("Bewerk afbeelding", "");
+
+printNavbar();
 
 ?>
 
@@ -19,20 +19,27 @@ printJumbo("Bewerk afbeelding", "");
 <?php
 
 // INSERT CITYFORM
-// Check if img_id is an integer
+
 $img_id = $_GET['img_id'];
+
+// Check if img_id is an integer
 if ( ! is_numeric( $img_id ) ) {
-    die("Ongeldig argument " . $_GET['img_id'] . " opgegeven");
+    die("Ongeldig argument " . $img_id . " opgegeven");
 }
 // get data
 $cityForm = "SELECT * FROM images JOIN countries ON cou_id = img_cou_id WHERE img_id =" . $img_id;
 $data = getData($cityForm);
+
 // add CSRF token to data
-$data[0]["csrf_token"] = generateCSRF("cityform");
+$extra["csrf_token"] = generateCSRF("cityform");
+$extra["select"] = makeSelect($fkey = 'img_cou_id', $value = $data[0]['img_cou_id'], $sql = 'SELECT cou_id, cou_');
+
 // get template
 $template = file_get_contents('./templates/cityform.html');
+
 // merge data & template
 $html = mergeDataTemplate($data, $template);
+
 // dynamische landenlijst
 $optionsCountries = "SELECT * FROM countries ORDER BY cou_name";
 $rows = getData($optionsCountries);
@@ -50,6 +57,5 @@ echo $html;
 </div> <!-- end .container -->
 
 <?php
-$mysqli -> close();
+printFooter();
 ?>
-</body>
