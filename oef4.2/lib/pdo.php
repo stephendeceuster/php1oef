@@ -20,7 +20,7 @@ function getData( $sql )
 {
     global $conn;
 
-    CreateConnection();
+    createConnection();
 
     //define and execute query
     $result = $conn->query( $sql );
@@ -41,11 +41,11 @@ function getData( $sql )
 
 }
 
-function ExecuteSQL( $sql )
+function executeSQL( $sql )
 {
     global $conn;
 
-    CreateConnection();
+    createConnection();
 
     //define and execute query
     $result = $conn->query( $sql );

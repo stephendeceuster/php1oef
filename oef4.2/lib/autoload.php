@@ -20,7 +20,7 @@ if ( key_exists( 'errors', $_SESSION ) AND is_array( $_SESSION['errors']) )
 if ( key_exists( 'old_post', $_SESSION ) AND is_array( $_SESSION['old_post']) )
 {
     $old_post = $_SESSION['old_post'];
-    $_SESSION['errors'] = null;
+    $_SESSION['old_post'] = null;
 }
 
 if ( key_exists( 'msgs', $_SESSION )) //AND is_array( $_SESSION['msgs']) )

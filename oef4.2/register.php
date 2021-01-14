@@ -3,7 +3,16 @@ error_reporting( E_ALL );
 ini_set( 'display_errors', 1 );
 
 require_once ('./lib/autoload.php');
-
+//echo '<br>var dump session error <br>';
+//var_dump($_SESSION['errors']);
+//echo '<br>var dump errors <br>';
+//var_dump($errors);
+//echo '<br>var dump session post <br>';
+//var_dump($_SESSION['post']);
+//$_SESSION['postpost'] = null;
+//echo '<br>var dump session post after empty <br>';
+//var_dump($_SESSION['postpost']);
+//var_dump($old_post);
 
 // INSERT HEAD & JUMBO
 printHead("Registreer");

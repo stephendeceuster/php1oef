@@ -120,9 +120,9 @@ function validateUsrPassword($pw) {
 function validateEmail($email) {
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $msg = "Gelieve een geldig email-adres te geven.";
-        $_SESSION['errors'][ "usr_email" . "_error" ] = $msg;
-    } /*else {
-        $checkEmail = getData('SELECT usr_email FROM user WHERE usr_email LIKE %' . $email . '%');
-        $_SESSION['mail'] = $checkEmail;
-    }*/
+        $_SESSION['errors']["usr_email" . "_error"] = $msg;
+    }
 }
+
+
+

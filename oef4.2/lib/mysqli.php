@@ -15,6 +15,7 @@ function getData($sql) {
     //define & execute query
     $result = $mysqli -> query($sql);
 
+    var_dump($result);
     if ($result -> num_rows > 0) {
         while($row = $result -> fetch_assoc()) {
             $rows[] = $row;

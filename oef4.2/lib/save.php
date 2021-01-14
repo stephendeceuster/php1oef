@@ -1,7 +1,5 @@
 <?php
 require_once "autoload.php";
-//var_dump($_POST['csrf']);
-//var_dump($_SESSION['lastest_csrf']);
 
 saveFormData();
 
@@ -12,7 +10,7 @@ function saveFormData()
         //controle CSRF token
         if ( ! key_exists("csrf", $_POST)) die("Missing CSRF");
         // CSRF FIXEN!!!!!!!!!!
-        //if ( ! hash_equals( $_POST['csrf'], $_SESSION['lastest_csrf'] ) ) die("Problem with CSRF");
+        if ( ! hash_equals( $_POST['csrf'], $_SESSION['latest_csrf'] ) ) die("Problem with CSRF");
 
         $_SESSION['lastest_csrf'] = "";
 
@@ -43,6 +41,28 @@ function saveFormData()
             validateUsrPassword($pw);
         }
 
+        // check bevestig password
+        if ($_POST['usr_password'] !== $_POST['usr_password2']) {
+            $msg = "Gelieve 2x hetzelfde wachtwoord te geven.";
+            $_SESSION['errors']["usr_password2" . "_error"] = $msg;
+        }
+
+        // check if email is already used
+        //$query = "SELECT usr_email FROM users WHERE usr_mail LIKE '".$_POST['usr_email']."'";
+        //$checkMail = getData($query);
+        //var_dump($checkMail);
+
+        // naam & voornaam is verplicht
+        //if (empty($_POST['usr_firstnaam'])) {
+        //    $msg = 'Gelieve uw voornaam in te geven - test.';
+        //    $_SESSION['errors']["usr_firstname" . "_error"] = $msg;
+        //}
+
+        //if (empty($_POST['usr_lastnaam'])) {
+        //    $msg = 'Gelieve uw achternaam in te geven - test.';
+        //    $_SESSION['errors']["usr_lastname" . "_error"] = $msg;
+        //}
+
         //terugkeren naar afzender als er een fout is
         if ( count($_SESSION['errors']) > 0 ) {
             $_SESSION['old_post'] = $_POST;
@@ -63,7 +83,7 @@ function saveFormData()
         foreach ( $_POST as $field => $value )
         {
             //skip non-data fields
-            if ( in_array( $field, [ 'table', 'pkey', 'afterinsert', 'afterupdate', 'csrf' ] ) ) continue;
+            if ( in_array( $field, [ 'table', 'pkey', 'afterinsert', 'afterupdate', 'csrf', 'usr_password2' ] ) ) continue;
 
             //handle primary key field
             if ( $field == $pkey )
@@ -92,7 +112,7 @@ function saveFormData()
         $sql .= $where;
 
         //run SQL
-        $result = ExecuteSQL( $sql );
+        $result = executeSQL( $sql );
         var_dump($result);
 
         //output if not redirected
@@ -104,7 +124,7 @@ function saveFormData()
         $_SESSION['msgs'] = "Bedankt, voor uw registratie.";
 
         //redirect after insert or update
-        if ( $insert AND $_POST["afterinsert"] > "" ) header("Location: ../" . $_POST["afterinsert"] );
-        if ( $update AND $_POST["afterupdate"] > "" ) header("Location: ../" . $_POST["afterupdate"] );
+        //if ( $insert AND $_POST["afterinsert"] > "" ) header("Location: ../" . $_POST["afterinsert"] );
+        //if ( $update AND $_POST["afterupdate"] > "" ) header("Location: ../" . $_POST["afterupdate"] );
     }
 }

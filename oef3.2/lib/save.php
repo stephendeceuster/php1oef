@@ -50,6 +50,7 @@ function SaveFormData()
         //make key-value string part of SQL statement
         $keys_values = [];
 
+        var_dump($_POST);
         foreach ( $_POST as $field => $value )
         {
             //skip non-data fields
@@ -66,6 +67,8 @@ function SaveFormData()
 
             //all other data-fields
             $keys_values[] = " $field = '$value' " ;
+
+
         }
 
         $str_keys_values = implode(" , ", $keys_values );
@@ -74,15 +77,13 @@ function SaveFormData()
         $sql .= $str_keys_values;
         //extend SQL with WHERE
         $sql .= $where;
-        var_dump($sql);
 
         //run SQL
         $result = $mysqli -> query($sql);
-        var_dump($result);
 
         //redirect after insert or update
-        //if ( $insert AND $_POST["afterinsert"] > "" ) header("Location: ../" . $_POST["afterinsert"] );
-        //if ( $update AND $_POST["afterupdate"] > "" ) header("Location: ../" . $_POST["afterupdate"] );
+        if ( $insert AND $_POST["afterinsert"] > "" ) header("Location: ../" . $_POST["afterinsert"] );
+        if ( $update AND $_POST["afterupdate"] > "" ) header("Location: ../" . $_POST["afterupdate"] );
 
     }
 }
