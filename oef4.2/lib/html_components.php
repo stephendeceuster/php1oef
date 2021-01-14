@@ -13,8 +13,14 @@ function printJumbo($title = "Leuke plekken op de wereld", $tagline = "Tips voor
     print $jumbo;
 }
 
-function printAlert($msgs) {
-    $alert = file_get_contents("./templates/alert.html");
+function printAlertSuccess($msgs) {
+    $alert = file_get_contents("./templates/alert-success.html");
+    $alert = str_replace("%msgs%", "$msgs", $alert);
+    print $alert;
+}
+
+function printAlertDanger($msgs) {
+    $alert = file_get_contents("./templates/alert-danger.html");
     $alert = str_replace("%msgs%", "$msgs", $alert);
     print $alert;
 }

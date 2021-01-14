@@ -112,17 +112,25 @@ function getFieldType( $definition )
 
 function validateUsrPassword($pw) {
     if (strlen($pw) < 8) {
-        $msg = "Gelieve een wachtwoord van minstens 8 tekens te kiezen.";
+        $msg = "Het wachtwoord moet minstens 8 tekens bevatten.";
         $_SESSION['errors']["usr_password" . "_error"] = $msg;
     }
 }
 
 function validateEmail($email) {
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $msg = "Gelieve een geldig email-adres te geven.";
+        $msg = "Gelieve een geldig email-adres op te geven.";
         $_SESSION['errors']["usr_email" . "_error"] = $msg;
+    } else {
+        $sql = "SELECT usr_email FROM user WHERE usr_email = '" . $email . "'";
+        $rows = getData($sql);
+        if (count($rows) > 0) {
+            $msg = "Er bestaat al een gebruiker met dit e-mailadres.";
+            $_SESSION['errors']["usr_email" . "_error"] = $msg;
+        }
     }
 }
+
 
 
 

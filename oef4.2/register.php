@@ -3,16 +3,6 @@ error_reporting( E_ALL );
 ini_set( 'display_errors', 1 );
 
 require_once ('./lib/autoload.php');
-//echo '<br>var dump session error <br>';
-//var_dump($_SESSION['errors']);
-//echo '<br>var dump errors <br>';
-//var_dump($errors);
-//echo '<br>var dump session post <br>';
-//var_dump($_SESSION['post']);
-//$_SESSION['postpost'] = null;
-//echo '<br>var dump session post after empty <br>';
-//var_dump($_SESSION['postpost']);
-//var_dump($old_post);
 
 // INSERT HEAD & JUMBO
 printHead("Registreer");
@@ -25,21 +15,18 @@ printNavbar();
     <div class="row">
 
 <?php
-// Insert register form
 // get data
-// SQL $userdata = "SELECT * FROM images JOIN countries ON cou_id = img_cou_id WHERE img_id =" . $img_id;
-// $data = getData($cityForm);
 if (isset($old_post)) {
-    $data = [0 => $old_post];
+    $data = [0 => ['usr_firstname' => $old_post[usr_firstname], 'usr_lastname' => '', 'usr_email' => '', 'usr_password' => '', 'usr_password2'=>'']];
 } else {
-    $data = [0 => ['usr_firstname' => '', 'usr_lastname' => '', 'usr_email' => '', 'usr_password' => '']];
+    $data = [0 => ['usr_firstname' => '', 'usr_lastname' => '', 'usr_email' => '', 'usr_password' => '', 'usr_password2'=>'']];
 }
 // add CSRF token to data
 $extra_elements['csrf_token'] = generateCSRF('registerform');
-//var_dump($extra_elements['csrf_token']);
-//var_dump($_SESSION['latest_csrf']);
+
 // get template
 $html = file_get_contents('./templates/register.html');
+
 // merge data & template
 $html = mergeDataTemplate($data, $html);
 $html = mergeExtraElementsTemplate($extra_elements, $html);

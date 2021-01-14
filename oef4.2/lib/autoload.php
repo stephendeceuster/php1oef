@@ -23,7 +23,7 @@ if ( key_exists( 'old_post', $_SESSION ) AND is_array( $_SESSION['old_post']) )
     $_SESSION['old_post'] = null;
 }
 
-if ( key_exists( 'msgs', $_SESSION )) //AND is_array( $_SESSION['msgs']) )
+if ( key_exists( 'msgs', $_SESSION ) && is_array( $_SESSION['msgs']) )
 {
     $msgs = $_SESSION['msgs'];
     $_SESSION['msgs'] = null;

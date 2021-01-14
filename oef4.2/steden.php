@@ -22,8 +22,12 @@ printJumbo($titleJumbo, $taglineJumbo);
 // NAVBAR
 printNavbar();
 
-if ( $msgs ) {
-    printAlert($msgs);
+if ( $msgs['success'] ) {
+    printAlertSuccess($msgs['success']);
+}
+
+if ( $msgs['danger'] ) {
+    printAlertDanger($msgs['danger']);
 }
 
 ?>

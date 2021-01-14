@@ -1,4 +1,7 @@
 <?php
+error_reporting( E_ALL );
+ini_set( 'display_errors', 1 );
+
 require_once "autoload.php";
 
 saveFormData();
@@ -12,7 +15,7 @@ function saveFormData()
         // CSRF FIXEN!!!!!!!!!!
         if ( ! hash_equals( $_POST['csrf'], $_SESSION['latest_csrf'] ) ) die("Problem with CSRF");
 
-        $_SESSION['lastest_csrf'] = "";
+        $_SESSION['latest_csrf'] = "";
 
         //sanitization
         $_POST = stripSpaces($_POST);
@@ -30,38 +33,36 @@ function saveFormData()
         //validation
         $sending_form_uri = $_SERVER['HTTP_REFERER'];
         compareWithDatabase( $table, $pkey );
-        //check if valid email
-        if (isset($_POST['usr_email'])) {
-            $email = $_POST['usr_email'];
-            validateEmail($email);
+
+        if ($table == 'user') {
+            //check if valid email
+            if (isset($_POST['usr_email'])) {
+                $email = $_POST['usr_email'];
+                validateEmail($email);
+            }
+            // check if password is long enough
+            if (isset($_POST['usr_password'])) {
+                $pw = $_POST['usr_password'];
+                validateUsrPassword($pw);
+            }
+
+            // check bevestig password
+            if ($_POST['usr_password'] !== $_POST['usr_password2']) {
+                $msg = "Gelieve 2x hetzelfde wachtwoord te geven.";
+                $_SESSION['errors']["usr_password2" . "_error"] = $msg;
+            }
+
+            // naam & voornaam is verplicht
+            if (empty($_POST['usr_firstname'])) {
+                $msg = 'Gelieve uw voornaam in te geven.';
+                $_SESSION['errors']["usr_firstname" . "_error"] = $msg;
+            }
+
+            if (empty($_POST['usr_lastname'])) {
+                $msg = 'Gelieve uw achternaam in te geven - test.';
+                $_SESSION['errors']["usr_lastname" . "_error"] = $msg;
+            }
         }
-        // check if password is long enough
-        if (isset($_POST['usr_password'])) {
-            $pw = $_POST['usr_password'];
-            validateUsrPassword($pw);
-        }
-
-        // check bevestig password
-        if ($_POST['usr_password'] !== $_POST['usr_password2']) {
-            $msg = "Gelieve 2x hetzelfde wachtwoord te geven.";
-            $_SESSION['errors']["usr_password2" . "_error"] = $msg;
-        }
-
-        // check if email is already used
-        //$query = "SELECT usr_email FROM users WHERE usr_mail LIKE '".$_POST['usr_email']."'";
-        //$checkMail = getData($query);
-        //var_dump($checkMail);
-
-        // naam & voornaam is verplicht
-        //if (empty($_POST['usr_firstnaam'])) {
-        //    $msg = 'Gelieve uw voornaam in te geven - test.';
-        //    $_SESSION['errors']["usr_firstname" . "_error"] = $msg;
-        //}
-
-        //if (empty($_POST['usr_lastnaam'])) {
-        //    $msg = 'Gelieve uw achternaam in te geven - test.';
-        //    $_SESSION['errors']["usr_lastname" . "_error"] = $msg;
-        //}
 
         //terugkeren naar afzender als er een fout is
         if ( count($_SESSION['errors']) > 0 ) {
@@ -94,9 +95,7 @@ function saveFormData()
 
             //hash password
             if ( $field == 'usr_password') {
-                $hash = password_hash($value, PASSWORD_DEFAULT);
-                $keys_values[] = " $field = '$hash' ";
-                continue;
+                $value = password_hash($value, PASSWORD_DEFAULT);
             }
 
             //all other data-fields
@@ -113,18 +112,22 @@ function saveFormData()
 
         //run SQL
         $result = executeSQL( $sql );
-        var_dump($result);
+
+        // if update is succesfull for update user table
+        if ($result && $table == 'user') {
+            $_SESSION['msgs']['success'] = "Bedankt, voor uw registratie.";
+        }
+        if (!$result) {
+            $_SESSION['msgs']['danger'] = "Er is iets misgelopen met het uploaden.";
+        }
 
         //output if not redirected
         print $sql ;
         print "<br>";
         print $result->rowCount() . " records affected";
 
-        //succes from script
-        $_SESSION['msgs'] = "Bedankt, voor uw registratie.";
-
         //redirect after insert or update
-        //if ( $insert AND $_POST["afterinsert"] > "" ) header("Location: ../" . $_POST["afterinsert"] );
-        //if ( $update AND $_POST["afterupdate"] > "" ) header("Location: ../" . $_POST["afterupdate"] );
+        if ( $insert AND $_POST["afterinsert"] > "" ) header("Location: ../" . $_POST["afterinsert"] );
+        if ( $update AND $_POST["afterupdate"] > "" ) header("Location: ../" . $_POST["afterupdate"] );
     }
 }
