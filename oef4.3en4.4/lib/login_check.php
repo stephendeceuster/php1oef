@@ -31,16 +31,13 @@ function loginCheck()
         // check if usr_email is already in DB
         $sql = "SELECT * FROM user WHERE usr_email = '" . $usr_email . "'";
         $user = getData($sql);
-        if (count($user) === 0) {
-            return false;
-        }
-
-        // check password
-        $hash = $user[0]['usr_password'];
-        if (password_verify($usr_password, $hash)) {
-            return true;
-        } else {
-            return false;
+        if (count($user) > 0) {
+            // check password
+            $hash = $user[0]['usr_password'];
+            if (password_verify($usr_password, $hash)) {
+                return true;
+            }
         }
     }
+    return false;
 }
